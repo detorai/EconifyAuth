@@ -14,3 +14,5 @@ val P600 = Color(0xFF2A4ECA)
 val P500 = Color(0xFF3461FD)
 val P100 = Color(0xFFD6DFFF)
 val P50 = Color(0xFFF5F9FE)
+
+val G100 = Color(0xFFEAEFF5)

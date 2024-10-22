@@ -28,6 +28,7 @@ fun TextFieldRow(
     modifier: Modifier
     ) {
     OutlinedTextField(
+        shape = RoundedCornerShape(14.dp),
         modifier = modifier,
         value = writingText,
         onValueChange = onValueChange,
@@ -38,7 +39,7 @@ fun TextFieldRow(
                 fontSize = 16.sp
             )
         },
-        trailingIcon = { trailingIcon },
+        trailingIcon = trailingIcon ,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Color.White,
             unfocusedBorderColor = Color.White)
