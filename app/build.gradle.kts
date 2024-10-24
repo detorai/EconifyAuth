@@ -76,4 +76,6 @@ dependencies {
     implementation(libs.voyager.livedata)
     implementation(libs.voyager.kodein)
     implementation(libs.voyager.rxjava)
+    implementation (libs.koin.androidx.compose)
 }
+

@@ -5,6 +5,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
+import com.example.eonifyauth.ui.resetPassword.ResetPasswordScreen
 
 class EnterOTPScreen: Screen {
 
@@ -14,6 +15,9 @@ class EnterOTPScreen: Screen {
     override fun Content() {
         val navigator = LocalNavigator.current
 
-        EnterOTP()
+        EnterOTP(
+            onClickButton = {navigator?.push(ResetPasswordScreen())},
+            onClickBack = {navigator?.pop()}
+        )
     }
 }

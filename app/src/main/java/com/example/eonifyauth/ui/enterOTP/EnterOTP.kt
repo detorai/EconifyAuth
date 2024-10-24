@@ -2,7 +2,6 @@ package com.example.eonifyauth.ui.enterOTP
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,13 +32,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eonifyauth.R
 import com.example.eonifyauth.common.BigButton
+import com.example.eonifyauth.common.ClickableTextEx
 import com.example.eonifyauth.ui.enterOTP.common.FullBoxTextField
 import com.example.eonifyauth.ui.theme.P100
-import com.example.eonifyauth.ui.theme.P50
 import com.example.eonifyauth.ui.theme.P600
 
 @Composable
-fun EnterOTP(){
+fun EnterOTP(
+    onClickBack: () -> Unit,
+    onClickButton:() -> Unit
+){
     Box(
         modifier = Modifier
             .fillMaxHeight()
@@ -48,7 +50,7 @@ fun EnterOTP(){
         contentAlignment = Alignment.Center
     ) {
         IconButton(
-            onClick = {},
+            onClick = onClickBack,
             modifier = Modifier.align(Alignment.TopStart).padding(14.dp, 39.dp, 0.dp, 0.dp)
         ){
             Icon(
@@ -115,20 +117,18 @@ fun EnterOTP(){
             )
             BigButton(
                 text = "Reset Password",
-                modifier = Modifier.padding(0.dp, 52.dp, 0.dp, 0.dp).size(345.dp, 60.dp)
+                modifier = Modifier.padding(0.dp, 52.dp, 0.dp, 0.dp).size(345.dp, 60.dp),
+                onClickButton = onClickButton
             )
             Row(
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier.width(345.dp).padding(0.dp, 16.dp, 0.dp, 0.dp)
             ) {
-                Text(
-                    buildAnnotatedString {
-                        append("Didn’t get OTP? ")
-                        withStyle(SpanStyle(color = P600)) {
-                            append(" Resend OTP")
-                        }
-                    }
+                ClickableTextEx(
+                    onClick = {},
+                    clickable = "Resend OTP",
+                    nonClickable = "Didn’t get OTP? "
                 )
             }
         }

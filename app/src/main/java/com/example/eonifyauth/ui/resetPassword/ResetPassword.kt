@@ -28,6 +28,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,8 +41,14 @@ import com.example.eonifyauth.ui.theme.P50
 import com.example.eonifyauth.ui.theme.P600
 
 @Composable
-fun ResetPassword(){
-    var writingText by remember { mutableStateOf("") }
+fun ResetPassword(
+    onClickBack:() -> Unit,
+    onClickButton:() -> Unit
+){
+    var passwordText by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
+    var repeatPasswordText by remember { mutableStateOf("") }
+    var repeatPasswordVisible by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -50,7 +58,7 @@ fun ResetPassword(){
         contentAlignment = Alignment.Center
     ){
         IconButton(
-            onClick = {},
+            onClick = onClickBack,
             modifier = Modifier.align(Alignment.TopStart).padding(14.dp, 39.dp, 0.dp, 0.dp)
         ){
             Icon(
@@ -109,13 +117,22 @@ fun ResetPassword(){
             )
 
             TextFieldRow(
-                writingText = writingText,
-                onValueChange = {writingText = it},
+                writingText = passwordText,
+                onValueChange = {passwordText = it},
+                visualTransformation =
+                if (passwordVisible)
+                    VisualTransformation.None
+                else
+                    PasswordVisualTransformation(),
                 trailingIcon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.visof),
-                        contentDescription = "visibilityOff"
-                    )
+                    IconButton(
+                        onClick = { passwordVisible = !passwordVisible }
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.visof),
+                            contentDescription = "visibilityOff"
+                        )
+                    }
                 },
                 textPlaceHolder = "Password",
                 modifier = Modifier
@@ -130,13 +147,22 @@ fun ResetPassword(){
             )
 
             TextFieldRow(
-                writingText = writingText,
-                onValueChange = {writingText = it},
+                writingText = repeatPasswordText,
+                onValueChange = {repeatPasswordText = it},
+                visualTransformation =
+                if (repeatPasswordVisible)
+                    VisualTransformation.None
+                else
+                    PasswordVisualTransformation(),
                 trailingIcon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.visof),
-                        contentDescription = "visibilityOff"
-                    )
+                    IconButton(
+                        onClick = { repeatPasswordVisible = !repeatPasswordVisible }
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.visof),
+                            contentDescription = "visibilityOff"
+                        )
+                    }
                 },
                 textPlaceHolder = "Repeat Password",
                 modifier = Modifier
@@ -151,7 +177,8 @@ fun ResetPassword(){
             )
             BigButton(
                 text = "Submit",
-                modifier = Modifier.padding(0.dp, 32.dp, 0.dp ,0.dp).size(345.dp, 60.dp)
+                modifier = Modifier.padding(0.dp, 32.dp, 0.dp ,0.dp).size(345.dp, 60.dp),
+                onClickButton = onClickButton
             )
         }
     }

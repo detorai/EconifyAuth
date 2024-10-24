@@ -37,8 +37,11 @@ import com.example.eonifyauth.ui.theme.P50
 import com.example.eonifyauth.ui.theme.P600
 
 @Composable
-fun ForgetPass(){
-    var writingText by remember { mutableStateOf("") }
+fun ForgetPass(
+    onClickButton: ()-> Unit,
+    onClickBack:() -> Unit
+){
+    var emailText by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -48,7 +51,7 @@ fun ForgetPass(){
         contentAlignment = Alignment.Center
     ) {
         IconButton(
-            onClick = {},
+            onClick = onClickBack,
             modifier = Modifier.align(Alignment.TopStart).padding(14.dp, 39.dp, 0.dp, 0.dp)
         ){
             Icon(
@@ -107,8 +110,8 @@ fun ForgetPass(){
                 fontWeight = FontWeight.Bold
             )
             TextFieldRow(
-                writingText = writingText,
-                onValueChange = {writingText = it},
+                writingText = emailText,
+                onValueChange = {emailText = it},
                 trailingIcon = {},
                 textPlaceHolder = "Email I’D/ Mobile Number",
                 modifier = Modifier
@@ -123,7 +126,8 @@ fun ForgetPass(){
             )
             BigButton(
                 text = " Countine",
-                modifier = Modifier.padding(0.dp, 32.dp, 0.dp ,0.dp).size(345.dp, 60.dp)
+                modifier = Modifier.padding(0.dp, 32.dp, 0.dp ,0.dp).size(345.dp, 60.dp),
+                onClickButton = onClickButton
             )
         }
     }

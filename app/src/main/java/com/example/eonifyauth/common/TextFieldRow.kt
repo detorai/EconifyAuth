@@ -14,6 +14,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eonifyauth.ui.theme.P50
@@ -25,7 +26,8 @@ fun TextFieldRow(
     onValueChange: (String) -> Unit,
     trailingIcon:@Composable () -> Unit,
     textPlaceHolder: String,
-    modifier: Modifier
+    modifier: Modifier,
+    visualTransformation: VisualTransformation = VisualTransformation.None
     ) {
     OutlinedTextField(
         shape = RoundedCornerShape(14.dp),
@@ -39,6 +41,7 @@ fun TextFieldRow(
                 fontSize = 16.sp
             )
         },
+        visualTransformation = visualTransformation,
         trailingIcon = trailingIcon ,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Color.White,

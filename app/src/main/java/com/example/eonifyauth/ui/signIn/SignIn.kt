@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,23 +28,28 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eonifyauth.R
 import com.example.eonifyauth.common.BigButton
+import com.example.eonifyauth.common.ClickableTextEx
 import com.example.eonifyauth.common.TextFieldRow
 import com.example.eonifyauth.ui.theme.P100
 import com.example.eonifyauth.ui.theme.P50
 import com.example.eonifyauth.ui.theme.P600
 
 @Composable
-fun SignIn(){
-    var writingText by remember { mutableStateOf("") }
+fun SignIn(
+    onClick: ()-> Unit,
+    onClickForget: () -> Unit
+){
+    var passwordText by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
+    var emailText by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -103,8 +109,8 @@ fun SignIn(){
             )
 
             TextFieldRow(
-                writingText = writingText,
-                onValueChange = {writingText = it},
+                writingText = emailText,
+                onValueChange = {emailText = it},
                 trailingIcon = {},
                 textPlaceHolder = "Email/Phone Number",
                 modifier = Modifier
@@ -119,13 +125,23 @@ fun SignIn(){
             )
 
             TextFieldRow(
-                writingText = writingText,
-                onValueChange = {writingText = it},
+                writingText = passwordText,
+                onValueChange = {passwordText = it},
+                visualTransformation =
+                if (passwordVisible)
+                    VisualTransformation.None
+                else
+                    PasswordVisualTransformation(),
                 trailingIcon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.visof),
-                        contentDescription = "visibilityOff"
-                    )
+                    IconButton(
+                        onClick = { passwordVisible = !passwordVisible }
+
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.visof),
+                            contentDescription = "visibilityOff"
+                        )
+                    }
                 },
                 textPlaceHolder = "Password",
                 modifier = Modifier
@@ -149,25 +165,25 @@ fun SignIn(){
                     "Forget Password?",
                     fontSize = 12.sp,
                     color = Color.LightGray,
-                    modifier = Modifier.clickable {  }
+                    modifier = Modifier.clickable {
+                        onClickForget()
+                    }
                 )
             }
             BigButton(
                 text = "Log In",
-                modifier = Modifier.padding(0.dp, 75.dp, 0.dp ,0.dp).size(345.dp, 60.dp)
+                modifier = Modifier.padding(0.dp, 75.dp, 0.dp ,0.dp).size(345.dp, 60.dp),
+                onClickButton = {}
             )
             Row(
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier.width(345.dp).padding(0.dp, 24.dp, 0.dp, 0.dp)
             ) {
-                Text(
-                    buildAnnotatedString {
-                        append("Don't have account?")
-                        withStyle(SpanStyle(color = P600)) {
-                            append(" Sign Up")
-                        }
-                    }
+                ClickableTextEx(
+                    onClick = onClick,
+                    nonClickable = "Don't have account? ",
+                    clickable = "Sign Up"
                 )
             }
         }

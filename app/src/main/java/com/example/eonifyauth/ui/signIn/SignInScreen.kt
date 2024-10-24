@@ -5,6 +5,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
+import com.example.eonifyauth.ui.forgetPass.ForgetPassScreen
 
 class SignInScreen: Screen {
 
@@ -14,6 +15,9 @@ class SignInScreen: Screen {
     override fun Content() {
         val navigator = LocalNavigator.current
 
-        SignIn()
+        SignIn(
+            onClick = {navigator?.pop()},
+            onClickForget = {navigator?.push(ForgetPassScreen())}
+        )
     }
 }

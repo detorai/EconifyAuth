@@ -5,6 +5,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
+import com.example.eonifyauth.ui.signUp.SignUpScreen
 
 class ScreenSplash: Screen {
 
@@ -15,6 +16,6 @@ class ScreenSplash: Screen {
     override fun Content() {
         val navigator = LocalNavigator.current
 
-        SplashScreen()
+        SplashScreen(onTimeout = { navigator?.push(SignUpScreen()) })
     }
 }

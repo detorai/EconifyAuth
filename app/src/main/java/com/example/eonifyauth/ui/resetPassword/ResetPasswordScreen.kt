@@ -14,6 +14,9 @@ class ResetPasswordScreen: Screen {
     override fun Content() {
         val navigator = LocalNavigator.current
 
-        ResetPassword()
+        ResetPassword(
+            onClickBack = {navigator?.pop()},
+            onClickButton = {}
+        )
     }
 }

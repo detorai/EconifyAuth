@@ -16,11 +16,12 @@ import com.example.eonifyauth.ui.theme.P500
 @Composable
 fun BigButton(
     text: String,
-    modifier: Modifier
+    modifier: Modifier,
+    onClickButton: ()-> Unit
 ){
     Button(
         shape = RoundedCornerShape(14.dp),
-        onClick = {},
+        onClick = onClickButton,
         colors = ButtonColors(
             contentColor = Color.White,
             containerColor = P500,
