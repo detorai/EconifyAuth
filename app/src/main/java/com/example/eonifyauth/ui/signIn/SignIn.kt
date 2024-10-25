@@ -1,6 +1,5 @@
 package com.example.eonifyauth.ui.signIn
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,32 +23,34 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eonifyauth.R
 import com.example.eonifyauth.common.BigButton
 import com.example.eonifyauth.common.ClickableTextEx
+import com.example.eonifyauth.common.ImageBox
+import com.example.eonifyauth.common.ScreenName
+import com.example.eonifyauth.common.TextDescription
 import com.example.eonifyauth.common.TextFieldRow
 import com.example.eonifyauth.ui.theme.P100
 import com.example.eonifyauth.ui.theme.P50
-import com.example.eonifyauth.ui.theme.P600
 
 @Composable
 fun SignIn(
     onClick: ()-> Unit,
-    onClickForget: () -> Unit
+    onClickForget: () -> Unit,
+    emailText: String,
+    passwordVisible: Boolean,
+    passwordText: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    visibleChange: () -> Unit
 ){
-    var passwordText by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
-    var emailText by remember { mutableStateOf("") }
+
 
     Box(
         modifier = Modifier
@@ -65,52 +66,19 @@ fun SignIn(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
-                modifier = Modifier
-                    .size(90.dp, 90.dp)
-                    .background(
-                        color = P100,
-                        shape = RoundedCornerShape(25)
-                    ),
-                contentAlignment = Alignment.Center
-            ){
-                Image(
-                    bitmap = ImageBitmap.imageResource(R.drawable.wave),
-                    contentDescription = "Wave",
-                    modifier = Modifier.size(70.dp,70.dp)
-                )
-            }
-            Text(
-                "Sign In",
-                fontSize = 32.sp,
-                color = P600,
-                modifier = Modifier.padding(
-                    0.dp,
-                    30.dp,
-                    0.dp,
-                    0.dp
-                ),
-                fontWeight = FontWeight.Bold
+            ImageBox(
+                color = P100,
+                id = R.drawable.wave
             )
-            Text(
-                "It was popularised in the 1960s with the release\n of Letraset sheetscontaining Lorem Ipsum.",
-                textAlign = TextAlign.Center,
-                fontSize = 14.sp,
-                color = Color.Gray,
-                modifier = Modifier
-                    .padding(
-                        0.dp,
-                        16.dp,
-                        0.dp,
-                        0.dp
-                    )
-                    .fillMaxWidth(),
-                fontWeight = FontWeight.Bold
+            ScreenName(
+                text = "Sign In"
             )
-
+            TextDescription(
+                text = "It was popularised in the 1960s with the release\n of Letraset sheetscontaining Lorem Ipsum."
+            )
             TextFieldRow(
                 writingText = emailText,
-                onValueChange = {emailText = it},
+                onValueChange = onEmailChange,
                 trailingIcon = {},
                 textPlaceHolder = "Email/Phone Number",
                 modifier = Modifier
@@ -126,7 +94,7 @@ fun SignIn(
 
             TextFieldRow(
                 writingText = passwordText,
-                onValueChange = {passwordText = it},
+                onValueChange = onPasswordChange,
                 visualTransformation =
                 if (passwordVisible)
                     VisualTransformation.None
@@ -134,7 +102,7 @@ fun SignIn(
                     PasswordVisualTransformation(),
                 trailingIcon = {
                     IconButton(
-                        onClick = { passwordVisible = !passwordVisible }
+                        onClick = visibleChange
 
                     ) {
                         Icon(

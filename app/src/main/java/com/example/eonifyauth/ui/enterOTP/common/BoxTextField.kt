@@ -75,10 +75,11 @@ fun BoxTextField(
 @SuppressLint("AutoboxingStateCreation")
 @Composable
 fun FullBoxTextField(
-    numFields: Int,
-    modifier: Modifier
+    numFields: Int = 5,
+    modifier: Modifier,
+    codeText: List<String>,
+    onValueChange: (Int, String) -> Unit
 ) {
-    val textValues = remember { List(numFields) { mutableStateOf("") } }
     val focusRequesters = List(numFields) { FocusRequester() }
 
     Row(
@@ -88,8 +89,8 @@ fun FullBoxTextField(
         ) {
             for (i in 0 until numFields) {
                 BoxTextField(
-                    inputText = textValues[i].value,
-                    onValueChange = { newValue -> textValues[i].value = newValue },
+                    inputText = codeText[i],
+                    onValueChange = { newValue -> onValueChange(i, newValue) },
                     onNextFocus = {
                         if (i < numFields - 1){
                             focusRequesters[i + 1].requestFocus()

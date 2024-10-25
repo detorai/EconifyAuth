@@ -1,7 +1,6 @@
 package com.example.eonifyauth.ui.signUp
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,23 +25,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import com.example.eonifyauth.R
 import com.example.eonifyauth.common.BigButton
 import com.example.eonifyauth.common.ClickableTextEx
+import com.example.eonifyauth.common.ImageBox
+import com.example.eonifyauth.common.ScreenName
+import com.example.eonifyauth.common.TextDescription
 import com.example.eonifyauth.common.TextFieldRow
 import com.example.eonifyauth.ui.theme.P100
 import com.example.eonifyauth.ui.theme.P50
@@ -53,11 +49,15 @@ import com.example.eonifyauth.ui.theme.P600
 @Composable
 fun SignUp(
     onClick: ()-> Unit,
+    passwordText: String,
+    nameText: String,
+    emailText: String,
+    passwordVisible: Boolean,
+    onEmailChange: (String) -> Unit,
+    onNameChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    visibleChange: () -> Unit
 ){
-    var passwordText by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
-    var nameText by remember { mutableStateOf("") }
-    var emailText by remember { mutableStateOf("") }
     val checkedState = remember { mutableStateOf(false) }
 
     Box(
@@ -74,52 +74,19 @@ fun SignUp(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
-                modifier = Modifier
-                    .size(90.dp, 90.dp)
-                    .background(
-                        color = P100,
-                        shape = RoundedCornerShape(25)
-                    ),
-                contentAlignment = Alignment.Center
-            ){
-                Image(
-                    bitmap = ImageBitmap.imageResource(R.drawable.claps),
-                    contentDescription = "Claps",
-                    modifier = Modifier.size(70.dp,70.dp)
-                )
-            }
-            Text(
-                "Sign Up",
-                fontSize = 32.sp,
-                color = P600,
-                modifier = Modifier.padding(
-                    0.dp,
-                    30.dp,
-                    0.dp,
-                    0.dp
-                ),
-                fontWeight = FontWeight.Bold
+            ImageBox(
+                color = P100,
+                id = R.drawable.claps
             )
-            Text(
-                "It was popularised in the 1960s with the release\n of Letraset sheetscontaining Lorem Ipsum.",
-                textAlign = TextAlign.Center,
-                fontSize = 14.sp,
-                color = Color.Gray,
-                modifier = Modifier
-                    .padding(
-                        0.dp,
-                        16.dp,
-                        0.dp,
-                        0.dp
-                    )
-                    .fillMaxWidth(),
-                fontWeight = FontWeight.Bold
+            ScreenName(
+                text = "Sign Up"
             )
-
+            TextDescription(
+                text = "It was popularised in the 1960s with the release\n of Letraset sheetscontaining Lorem Ipsum."
+            )
             TextFieldRow(
                 writingText = nameText,
-                onValueChange = {nameText = it},
+                onValueChange = onNameChange,
                 trailingIcon = {},
                 textPlaceHolder = "Name",
                 modifier = Modifier
@@ -134,7 +101,7 @@ fun SignUp(
             )
             TextFieldRow(
                 writingText = emailText,
-                onValueChange = {emailText = it},
+                onValueChange = onEmailChange,
                 trailingIcon = {},
                 textPlaceHolder = "Email/Phone Number",
                 modifier = Modifier
@@ -149,7 +116,7 @@ fun SignUp(
             )
             TextFieldRow(
                 writingText = passwordText,
-                onValueChange = {passwordText = it},
+                onValueChange = onPasswordChange,
                 visualTransformation =
                         if (passwordVisible)
                             VisualTransformation.None
@@ -157,7 +124,7 @@ fun SignUp(
                             PasswordVisualTransformation(),
                 trailingIcon = {
                     IconButton(
-                        onClick = { passwordVisible = !passwordVisible }
+                        onClick = visibleChange
                     ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(R.drawable.visof),
